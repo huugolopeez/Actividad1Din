@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 
 class RegisterView extends StatelessWidget {
 
+  late BuildContext _context;
+
+  onClickCancel() {
+    Navigator.of(_context).pushNamed('/loginview');
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    _context = context;
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +50,7 @@ class RegisterView extends StatelessWidget {
           Row(mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(onPressed: () {  }, child: Text('Register')),
-              TextButton(onPressed: () {  }, child: Text('Cancel'))
+              TextButton(onPressed: () { onClickCancel(); }, child: Text('Cancel'))
             ],
           )
         ],
