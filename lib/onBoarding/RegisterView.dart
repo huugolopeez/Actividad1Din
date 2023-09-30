@@ -21,11 +21,8 @@ class RegisterView extends StatelessWidget {
         );
         onClickCancel();
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          print(' --> La contraseña es muy debil.');
-        } else if (e.code == 'email-already-in-use') {
-          print(' --> El correo electronico ya esta en uso.');
-        }
+        if (e.code == 'weak-password') print(' --> La contraseña es muy debil.');
+        else if (e.code == 'email-already-in-use') print(' --> El correo electronico ya esta en uso.');
       } catch (e) {
         print(e);
       }

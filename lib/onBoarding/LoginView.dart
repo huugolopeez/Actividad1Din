@@ -1,11 +1,29 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginView extends StatelessWidget {
 
   late BuildContext _context;
+  TextEditingController tecEmail = TextEditingController();
+  TextEditingController tecPass = TextEditingController();
 
   onClickRegister() {
     Navigator.of(_context).pushNamed('/registerview');
+  }
+
+  onClickLogin() async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: tecEmail.text,
+        password: tecPass.text,
+      );
+      print(' --> Funciona.');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-email') print(' --> Formato del email incorrecto.');
+      else if (e.code == 'invalid-login-credentials') print(' --> Credenciales incorrectas.');
+      //else if (e.code == 'wrong-password') print(' --> La contraseña es incorrecta.');
+      //else if (e.code == 'user-not-found') print(' --> No se encuentra el email.');
+    }
   }
 
   @override
@@ -23,6 +41,7 @@ class LoginView extends StatelessWidget {
         children: [
           Padding(padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
             child: TextField(
+              controller: tecEmail,
               decoration: InputDecoration(
                 labelText: 'Username',
                 border: OutlineInputBorder(),
@@ -31,6 +50,7 @@ class LoginView extends StatelessWidget {
           ),
           Padding(padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
             child: TextFormField(
+              controller: tecPass,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -40,7 +60,7 @@ class LoginView extends StatelessWidget {
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton(onPressed: () {  }, child: Text('Login')),
+              TextButton(onPressed: () { onClickLogin(); }, child: Text('Login')),
               TextButton(onPressed: () { onClickRegister(); }, child: Text('Register')),
             ],
           )
