@@ -1,11 +1,35 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RegisterView extends StatelessWidget {
 
   late BuildContext _context;
+  TextEditingController tecEmail = TextEditingController();
+  TextEditingController tecPass = TextEditingController();
+  TextEditingController tecRepass = TextEditingController();
 
   onClickCancel() {
     Navigator.of(_context).pushNamed('/loginview');
+  }
+
+  onClickRegister() async {
+    if(tecPass.text == tecRepass.text) {
+      try {
+        final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: tecEmail.text,
+          password: tecPass.text,
+        );
+        onClickCancel();
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          print(' --> La contraseña es muy debil.');
+        } else if (e.code == 'email-already-in-use') {
+          print(' --> El correo electronico ya esta en uso.');
+        }
+      } catch (e) {
+        print(e);
+      }
+    } else print(' --> Las contraseñas no coinciden.');
   }
 
   @override
@@ -23,6 +47,7 @@ class RegisterView extends StatelessWidget {
         children: [
           Padding(padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
             child: TextField(
+              controller: tecEmail,
               decoration: InputDecoration(
                 labelText: 'Username',
                 border: OutlineInputBorder(),
@@ -31,6 +56,7 @@ class RegisterView extends StatelessWidget {
           ),
           Padding(padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
             child: TextFormField(
+              controller: tecPass,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
@@ -40,6 +66,7 @@ class RegisterView extends StatelessWidget {
           ),
           Padding(padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
             child: TextFormField(
+              controller: tecRepass,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Confirm password',
@@ -49,7 +76,7 @@ class RegisterView extends StatelessWidget {
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton(onPressed: () {  }, child: Text('Register')),
+              TextButton(onPressed: () { onClickRegister(); }, child: Text('Register')),
               TextButton(onPressed: () { onClickCancel(); }, child: Text('Cancel'))
             ],
           )
