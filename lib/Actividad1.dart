@@ -8,7 +8,8 @@ class Actividad1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MaterialApp materialApp = MaterialApp(
+
+    return MaterialApp(
       title: '1DIN',
       routes: {
         '/loginview': (context) => LoginView(),
@@ -17,7 +18,5 @@ class Actividad1 extends StatelessWidget {
       initialRoute: '/loginview',
       debugShowCheckedModeBanner: false,
     );
-
-    return materialApp;
   }
 }
