@@ -4,8 +4,13 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
 
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
+        shadowColor: Colors.deepPurpleAccent,
+        title: Center(child: Text('Home'))
+      ),
+    );
+  }
 }
