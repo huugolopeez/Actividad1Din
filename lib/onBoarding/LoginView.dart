@@ -17,7 +17,7 @@ class LoginView extends StatelessWidget {
         email: tecEmail.text,
         password: tecPass.text,
       );
-      print(' --> Funciona.');
+      Navigator.of(_context).pushNamed('/homeview');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') print(' --> Formato del email incorrecto.');
       else if (e.code == 'invalid-login-credentials') print(' --> Credenciales incorrectas.');
