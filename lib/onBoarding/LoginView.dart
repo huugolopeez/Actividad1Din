@@ -60,8 +60,20 @@ class LoginView extends StatelessWidget {
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton(onPressed: () { onClickLogin(); }, child: Text('Login')),
-              TextButton(onPressed: () { onClickRegister(); }, child: Text('Register')),
+              TextButton(onPressed: () { onClickLogin(); },
+                  child: Text('Login'),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
+                      foregroundColor: MaterialStateProperty.all(Colors.white)
+                  )
+              ),
+              TextButton(onPressed: () { onClickRegister(); }, 
+                  child: Text('Register'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
+                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                  ),    
+              ),
             ],
           )
         ],

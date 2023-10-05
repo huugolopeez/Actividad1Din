@@ -73,8 +73,20 @@ class RegisterView extends StatelessWidget {
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton(onPressed: () { onClickRegister(); }, child: Text('Register')),
-              TextButton(onPressed: () { onClickCancel(); }, child: Text('Cancel'))
+              TextButton(onPressed: () { onClickRegister(); }, 
+                  child: Text('Register'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
+                    foregroundColor: MaterialStateProperty.all(Colors.white)
+                  ),
+              ),
+              TextButton(onPressed: () { onClickCancel(); }, 
+                  child: Text('Cancel'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
+                    foregroundColor: MaterialStateProperty.all(Colors.white)
+                  ),
+              )
             ],
           )
         ],
