@@ -7,6 +7,11 @@ class LoginView extends StatelessWidget {
   TextEditingController tecEmail = TextEditingController();
   TextEditingController tecPass = TextEditingController();
 
+  throwSnackBar(String error) {
+    SnackBar snackBar = SnackBar(content: Text(error));
+    ScaffoldMessenger.of(_context).showSnackBar(snackBar);
+  }
+
   onClickRegister() {
     Navigator.of(_context).pushNamed('/registerview');
   }
@@ -19,8 +24,8 @@ class LoginView extends StatelessWidget {
       );
       Navigator.of(_context).pushNamed('/homeview');
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'invalid-email') print(' --> Formato del email incorrecto.');
-      else if (e.code == 'invalid-login-credentials') print(' --> Credenciales incorrectas.');
+      if (e.code == 'invalid-email') throwSnackBar(' --> Formato del email incorrecto.');
+      else if (e.code == 'invalid-login-credentials') throwSnackBar(' --> Credenciales incorrectas.');
       //else if (e.code == 'wrong-password') print(' --> La contraseña es incorrecta.');
       //else if (e.code == 'user-not-found') print(' --> No se encuentra el email.');
     }

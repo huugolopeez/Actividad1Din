@@ -8,6 +8,11 @@ class RegisterView extends StatelessWidget {
   TextEditingController tecPass = TextEditingController();
   TextEditingController tecRepass = TextEditingController();
 
+  throwSnackBar(String error) {
+    SnackBar snackBar = SnackBar(content: Text(error));
+    ScaffoldMessenger.of(_context).showSnackBar(snackBar);
+  }
+
   onClickCancel() {
     Navigator.of(_context).pushNamed('/loginview');
   }
@@ -21,12 +26,12 @@ class RegisterView extends StatelessWidget {
         );
         onClickCancel();
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') print(' --> La contraseña es muy debil.');
-        else if (e.code == 'email-already-in-use') print(' --> El correo electronico ya esta en uso.');
+        if (e.code == 'weak-password') throwSnackBar(' --> La contraseña es muy debil.');
+        else if (e.code == 'email-already-in-use') throwSnackBar(' --> El correo electronico ya esta en uso.');
       } catch (e) {
         print(e);
       }
-    } else print(' --> Las contraseñas no coinciden.');
+    } else throwSnackBar(' --> Las contraseñas no coinciden.');
   }
 
   @override
