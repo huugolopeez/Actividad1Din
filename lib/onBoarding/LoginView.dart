@@ -1,3 +1,4 @@
+import 'package:actividad1/custom/HLTextField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,21 +14,19 @@ class LoginView extends StatelessWidget {
   }
 
   onClickRegister() {
-    Navigator.of(_context).pushNamed('/registerview');
+    Navigator.of(_context).popAndPushNamed('/registerview');
   }
 
   onClickLogin() async {
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: tecEmail.text,
         password: tecPass.text,
       );
-      Navigator.of(_context).pushNamed('/homeview');
+      Navigator.of(_context).popAndPushNamed('/homeview');
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'invalid-email') throwSnackBar(' --> Formato del email incorrecto.');
-      else if (e.code == 'invalid-login-credentials') throwSnackBar(' --> Credenciales incorrectas.');
-      //else if (e.code == 'wrong-password') print(' --> La contraseña es incorrecta.');
-      //else if (e.code == 'user-not-found') print(' --> No se encuentra el email.');
+      if (e.code == 'invalid-email') throwSnackBar('-- Formato del email incorrecto --');
+      else if (e.code == 'invalid-login-credentials') throwSnackBar('-- Credenciales incorrectas --');
     }
   }
 
@@ -40,50 +39,40 @@ class LoginView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         shadowColor: Colors.deepPurpleAccent,
-        title: Center(child: Text('Login')),
+        title: Center(child: Text('Login'))
       ),
       body: Column(mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
-            child: TextField(
-              controller: tecEmail,
-              decoration: InputDecoration(
-                labelText: 'Username',
-                border: OutlineInputBorder(),
-              ),
-            ),
+            child: HLTextField(sHint: 'Username', tecController: tecEmail)
           ),
           Padding(padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
-            child: TextFormField(
-              controller: tecPass,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-            ),
+            child: HLTextField(sHint: 'Password', tecController: tecPass, bObsucure: true)
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton(onPressed: () { onClickLogin(); },
+              Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                child: TextButton(onPressed: () { onClickLogin(); },
                   child: Text('Login'),
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
-                      foregroundColor: MaterialStateProperty.all(Colors.white)
+                    backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
+                    foregroundColor: MaterialStateProperty.all(Colors.white)
                   )
+                )
               ),
-              TextButton(onPressed: () { onClickRegister(); }, 
+              Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                child: TextButton(onPressed: () { onClickRegister(); },
                   child: Text('Register'),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                  ),    
-              ),
-            ],
+                    foregroundColor: MaterialStateProperty.all(Colors.white)
+                  )
+                )
+              )
+            ]
           )
-        ],
-      ),
+        ]
+      )
     );
-
   }
 }
