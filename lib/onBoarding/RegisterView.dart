@@ -1,4 +1,3 @@
-import 'package:actividad1/custom/HLTextField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -15,24 +14,24 @@ class RegisterView extends StatelessWidget {
   }
 
   onClickCancel() {
-    Navigator.of(_context).popAndPushNamed('/loginview');
+    Navigator.of(_context).pushNamed('/loginview');
   }
 
   onClickRegister() async {
     if(tecPass.text == tecRepass.text) {
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: tecEmail.text,
           password: tecPass.text,
         );
         onClickCancel();
       } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') throwSnackBar('-- La contraseña es muy debil --');
-        else if (e.code == 'email-already-in-use') throwSnackBar('-- El correo electronico ya esta en uso --');
+        if (e.code == 'weak-password') throwSnackBar(' --> La contraseña es muy debil.');
+        else if (e.code == 'email-already-in-use') throwSnackBar(' --> El correo electronico ya esta en uso.');
       } catch (e) {
         print(e);
       }
-    } else throwSnackBar('-- Las contraseñas no coinciden --');
+    } else throwSnackBar(' --> Las contraseñas no coinciden.');
   }
 
   @override
@@ -49,38 +48,55 @@ class RegisterView extends StatelessWidget {
       body: Column(mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
-            child: HLTextField(sHint: 'Username', tecController: tecEmail)
+            child: TextField(
+              controller: tecEmail,
+              decoration: InputDecoration(
+                labelText: 'Username',
+                border: OutlineInputBorder(),
+              ),
+            ),
           ),
           Padding(padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
-            child: HLTextField(sHint: 'Password', tecController: tecPass, bObsucure: true)
+            child: TextFormField(
+              controller: tecPass,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
+            ),
           ),
           Padding(padding: EdgeInsets.symmetric(horizontal: 60, vertical: 16),
-            child: HLTextField(sHint: 'Confirm password', tecController: tecRepass, bObsucure: true)
+            child: TextFormField(
+              controller: tecRepass,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Confirm password',
+                border: OutlineInputBorder(),
+              ),
+            ),
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                child: TextButton(onPressed: () { onClickRegister(); },
+              TextButton(onPressed: () { onClickRegister(); }, 
                   child: Text('Register'),
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
-                      foregroundColor: MaterialStateProperty.all(Colors.white)
-                  )
-                )
+                    backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
+                    foregroundColor: MaterialStateProperty.all(Colors.white)
+                  ),
               ),
-              Padding(padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                child: TextButton(onPressed: () { onClickCancel(); },
+              TextButton(onPressed: () { onClickCancel(); }, 
                   child: Text('Cancel'),
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
-                      foregroundColor: MaterialStateProperty.all(Colors.white)
-                  )
-                )
+                    backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
+                    foregroundColor: MaterialStateProperty.all(Colors.white)
+                  ),
               )
-            ]
+            ],
           )
-        ]
-      )
+        ],
+      ),
     );
+
   }
 }

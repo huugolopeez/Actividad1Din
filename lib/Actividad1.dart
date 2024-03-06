@@ -1,5 +1,4 @@
 import 'package:actividad1/main/HomeView.dart';
-import 'package:actividad1/splash/SplashView.dart';
 import 'package:flutter/material.dart';
 
 import 'onBoarding/LoginView.dart';
@@ -16,11 +15,10 @@ class Actividad1 extends StatelessWidget {
       routes: {
         '/loginview': (context) => LoginView(),
         '/registerview': (context) => RegisterView(),
-        '/homeview': (context) => HomeView(),
-        '/splashview': (context) => SplashView()
+        '/homeview': (context) => HomeView()
       },
-      initialRoute: '/splashview',
-      debugShowCheckedModeBanner: false
+      initialRoute: '/loginview',
+      debugShowCheckedModeBanner: false,
     );
   }
 }
